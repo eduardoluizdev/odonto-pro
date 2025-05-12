@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "../generated/prisma/client";
 
 let prisma: PrismaClient;
 
@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === "production") {
   prisma = new PrismaClient();
 } else {
   let globalWithPrisma = global as typeof globalThis & {
-    prisma: ReturnType<typeof PrismaClient>;
+    prisma: PrismaClient;
   };
 
   if (!globalWithPrisma.prisma) {

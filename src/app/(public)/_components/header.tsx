@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -9,13 +8,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 import { LogIn, Menu } from "lucide-react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { useState } from "react";
+import { handleRegister } from "../_actions/login";
 
 export function Header() {
+  const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
-
-  const session = null;
 
   const navItems = [
     {
@@ -23,6 +24,10 @@ export function Header() {
       href: "#profissionais",
     },
   ];
+
+  async function handleLogin() {
+    await handleRegister("github");
+  }
 
   const NavLinks = () => (
     <>
@@ -39,16 +44,17 @@ export function Header() {
         </Button>
       ))}
 
-      {session ? (
+      {status === "loading" ? (
+        <></>
+      ) : session ? (
         <Link
           href="/dashboard"
-          className="flex items-center gap-2 justify-center"
+          className="flex items-center gap-2 justify-center bg-zinc-900 text-white py-1 rounded-md px-4"
         >
-          <LogIn />
-          Painel da clínica
+          Acessar clínica
         </Link>
       ) : (
-        <Button>
+        <Button onClick={handleLogin}>
           <LogIn />
           Painel da clínica
         </Button>
@@ -83,7 +89,6 @@ export function Header() {
             className="w-[240px] sm:w-[320px] z-[9999] p-6"
           >
             <SheetTitle>Menu</SheetTitle>
-            {/* <SheetHeader></SheetHeader> */}
             <SheetDescription>Veja nossos links</SheetDescription>
 
             <nav className="flex flex-col space-y-4 mt-6">

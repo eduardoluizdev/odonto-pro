@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import {
   Sheet,
   SheetContent,
@@ -8,7 +9,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import clsx from "clsx";
 import {
   Banknote,
@@ -181,7 +181,11 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
           <Sheet>
             <div className="flex items-center gap-4">
               <SheetTrigger asChild>
-                <Button variant="outline" className="md:hidden">
+                <Button
+                  variant="outline"
+                  className="md:hidden"
+                  onClick={() => setIsCollapsed(false)}
+                >
                   <List className="w-5 h-5" />
                 </Button>
               </SheetTrigger>
