@@ -205,9 +205,9 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
             </SheetContent>
           </Sheet>
         </header>
-      </div>
 
-      <main className="flex-1 py-4 px-2 md:p-6">{children}</main>
+        <main className="flex-1 py-4 px-2 md:p-6">{children}</main>
+      </div>
     </div>
   );
 }
