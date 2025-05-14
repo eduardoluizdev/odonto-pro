@@ -11,7 +11,7 @@ interface UseProfileFormProps {
   timeZone: string | null;
 }
 
-const profileSchema = z.object({
+const formSchema = z.object({
   name: z.string().min(1, { message: "Nome é obrigatório" }),
   address: z.string().optional(),
   phone: z.string().optional(),
@@ -19,7 +19,7 @@ const profileSchema = z.object({
   timeZone: z.string().min(1, { message: "Time zone é obrigatório" }),
 });
 
-export type ProfileFormData = z.infer<typeof profileSchema>;
+export type ProfileFormData = z.infer<typeof formSchema>;
 
 export function useProfileForm({
   name,
@@ -29,7 +29,7 @@ export function useProfileForm({
   timeZone,
 }: UseProfileFormProps) {
   return useForm<ProfileFormData>({
-    resolver: zodResolver(profileSchema),
+    resolver: zodResolver(formSchema),
     defaultValues: {
       name: name || "",
       address: address || "",
