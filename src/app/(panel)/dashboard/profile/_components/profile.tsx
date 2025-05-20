@@ -39,6 +39,8 @@ import { formatPhone } from "@/utils/formatPhone";
 import { useState } from "react";
 import { toast } from "sonner";
 import { updateProfile } from "../_actions/update-profile";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export type UserWithSubscription = User & {
   subscription: Subscription;
@@ -53,6 +55,9 @@ export function ProfileContent({ user }: ProfileContentProps) {
     user.times ?? []
   );
   const [isOpen, setIsOpen] = useState(false);
+
+  const { update } = useSession();
+  const router = useRouter();
 
   const form = useProfileForm({
     name: user.name,
@@ -105,6 +110,12 @@ export function ProfileContent({ user }: ProfileContentProps) {
     if (response.error) {
       toast.error(response.error as string);
     }
+  }
+
+  async function handleLogout() {
+    await signOut();
+    await update();
+    router.replace("/");
   }
 
   return (
@@ -309,7 +320,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
                     type="submit"
                     className="w-full bg-emerald-500 hover:bg-emerald-400"
                   >
-                    Dalvar alterações
+                    Salvar alterações
                   </Button>
                 </div>
               </div>
@@ -317,6 +328,12 @@ export function ProfileContent({ user }: ProfileContentProps) {
           </Card>
         </form>
       </Form>
+
+      <section className="mt-4">
+        <Button variant="destructive" onClick={handleLogout}>
+          Sair da conta
+        </Button>
+      </section>
     </div>
   );
 }
